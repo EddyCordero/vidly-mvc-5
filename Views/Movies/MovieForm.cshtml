@@ -1,0 +1,52 @@
+﻿@model Vidly.ViewModels.MovieFormViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Title</h2>
+
+@using (Html.BeginForm("Save","Movies"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "Please fix the following errors.")
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new { @class = "control-label " })
+            
+                @Html.TextBoxFor(model => model.ReleaseDate, "{0:d MMM yyyy}",new { @class = "form-control" } )
+                @Html.ValidationMessageFor(model => model.ReleaseDate, "", new { @class = "text-danger " })
+            
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GenreId, htmlAttributes: new { @class = "control-label" })
+            
+                @Html.DropDownListFor(m => m.GenreId, new SelectList(Model.Genres, "Id", "Name"), "Select Genres Type", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.GenreId, "", new { @class = "text-danger" })
+            
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NumberInStock, htmlAttributes: new { @class = "control-label" })
+            
+                @Html.EditorFor(model => model.NumberInStock, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NumberInStock, "", new { @class = "text-danger" })
+            
+        </div>
+
+        @Html.HiddenFor(m => m.Id)
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+}
+
